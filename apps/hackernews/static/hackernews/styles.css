@@ -1,0 +1,38 @@
+*{
+    border: 0;
+    margin: 0;
+}
+
+#wrapper{
+    width: 100em;
+    margin: 0 auto;
+}
+
+h1{
+    color: red;
+}
+
+h4{
+    margin: 0 0 2em 0;
+}
+
+form{
+    margin: .75em 0 1.5em .75em; 
+}
+
+input{
+    display: block;
+    border: lightgrey solid 1px;
+}
+
+#forgot-password{
+    color: blue;
+}
+
+#login-submit{
+    margin: 1em 0 2em 0;
+}
+
+#reg-submit{
+    margin: 1em 0 0 0;
+}

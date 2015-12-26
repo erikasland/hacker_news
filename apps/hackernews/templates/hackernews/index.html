@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    {% load staticfiles %}
+    <link rel='stylesheet' type='text/css' href='{% static "hackernews/styles.css"%}'>
+</head>
+<body>
+    <div id='wrapper'>
+        <div id='form-wrapper'>
+            <form action='login' method='post'>
+                {% csrf_token %}
+                <div id='login-div'>
+                    <h4>Login</h4>
+                    {{login}}
+                    <input id='login-submit' type='submit' value='Login'>
+                </div>
+                <a id='forgot-password' href=''>Forgot your password?</a>
+            </form>
+            <form action='reg' method='post'>
+                {% csrf_token %}
+                <div id='registration-div'>
+                    <h4>Registration</h4>
+                    {{register}}
+                    <input id='reg-submit' type='submit' value='Register'>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        {% load staticfiles %}
+        <link rel='stylesheet' type='text/css' href='{% static "hackernews/home.css" %}'>
+    </head>
+    <body>
+        <div id='wrapper'>
+            <header>
+                <img src='{% static "hackernews/y18.gif" %}'>
+                <h1>Hacker News</h1>
+                <p>|</p>
+                <a class='head-links' href=''>new</a>
+                <p>|</p>
+                <a class='head-links' href=''>comments</a>
+                <p>|</p>
+                <a class='head-links' href=''>show</a>
+                <p>|</p>
+                <a class='head-links' href=''>ask</a>
+                <p>|</p>
+                <a class='head-links' href=''>jobs</a>
+                <p>|</p>
+                <a class='head-links' href=''>submit</a>
+                {% if not request.user.username %}
+                    <a id='login-link' href='logreg'>login</a>
+                {% else %}
+                    <a id='login-link' href='logout'>logout</a>
+                {% endif %}
+
+            </header>
+            <section></section>
+            <footer>
+                <div id='bottom-nav'>
+                    <a class='foot-links' href=''>Guidelines</a>
+                    <p>|</p>
+                    <a class='foot-links' href=''>FAQ</a>
+                    <p>|</p>
+                    <a class='foot-links' href=''>Support</a>
+                    <p>|</p>
+                    <a class='foot-links' href=''>API</a>
+                    <p>|</p>
+                    <a class='foot-links' href=''>Security</a>
+                    <p>|</p>
+                    <a class='foot-links' href=''>Lists</a>
+                    <p>|</p>
+                    <a class='foot-links' href=''>Bookmarklet</a>
+                    <p>|</p>
+                    <a class='foot-links' href=''>DMCA</a>
+                    <p>|</p>
+                    <a class='foot-links' href=''>Apply to YC</a>
+                    <p>|</p>
+                    <a class='foot-links' href=''>Contact</a>
+                    <form>
+                        {{search}}                
+                    </form>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>
