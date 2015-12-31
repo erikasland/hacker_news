@@ -4,14 +4,40 @@ from .forms import Login, Registration, Search
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
+from apps.hackernews.models import Post, Comment, PostVote, CommentVote
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import json
 
 class Index(View):
     def get(self, request):
-        search = Search()
-        return render(request, 'hackernews/home.html', {'search': search})
+        infototemplate = self.InfoToTemplate()
+        post = self.paginatepost(request)
+        return render(request, 'hackernews/home.html', {'info': infototemplate, 'post': post})
+   
     def post(self, request):
+        infototemplate = self.InfoToTemplate()
+        post = self.paginatepost(request)
+        return render(request, 'hackernews/home.html', {'info': infototemplate, 'post': post})
+
+    def paginatepost(self, request):
+        post_list = Post.objects.all()
+        paginator = Paginator(post_list, 30)
+        page = request.GET.get('page')
+        try:
+            posts = paginator.page(page)
+        except PageNotAnInteger:
+            posts = paginator.page(1)
+        except EmptyPage:
+            posts = paginator.page(paginator.num_pages)
+        return {'posts': posts}
+
+    def InfoToTemplate(self):
         search = Search()
-        return render(request, 'hackernews/home.html', {'search': search})
+        comment = Comment.objects.all()
+        postvote = PostVote.objects.all()
+        commentvote = CommentVote.objects.all()
+
+        return {'search': search, 'comment': comment, 'postvote': postvote, 'commentvote': commentvote}
 
 class LogReg(View):
     def get(self, request):
@@ -42,6 +68,13 @@ class RegUser(View):
                 user = authenticate(username=request.POST['username'], password=request.POST['password'])
                 login(request, user)
                 return redirect('/')
+
+class VoteUpPost(View):
+    def post(self, request):
+        post = Post.objects.filter(id = int(request.body))[0]
+        user = User.objects.filter(id = request.user.id)[0]
+        PostVote.objects.create(user = user, post=post)
+        return JsonResponse({'status': True})
 
 class LogOut(View):
     def get(self, request):

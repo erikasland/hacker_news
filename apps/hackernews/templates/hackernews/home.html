@@ -4,6 +4,47 @@
         <title></title>
         {% load staticfiles %}
         <link rel='stylesheet' type='text/css' href='{% static "hackernews/home.css" %}'>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('.up-arrow').click(function(){
+                    $(this).hide()
+                    var number = $(this).data('value');
+                    number = number.toString()
+                    $.ajax({
+                        headers: {
+                            'Content-Type':'application/json',
+                            'X-CSRFToken': getCookie('csrftoken')
+                        },
+                        url: 'voteuppost',
+                        type: 'POST',
+                        data: number,
+                        success: function(data) {
+                            alert('success!')   
+                        },
+                        error: function(){
+                            alert('fail')
+                        }
+
+                    })
+                    return false
+                });
+                function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            })
+        </script>
     </head>
     <body>
         <div id='wrapper'>
@@ -22,14 +63,35 @@
                 <a class='head-links' href=''>jobs</a>
                 <p>|</p>
                 <a class='head-links' href=''>submit</a>
-                {% if not request.user.username %}
-                    <a id='login-link' href='logreg'>login</a>
-                {% else %}
-                    <a id='login-link' href='logout'>logout</a>
-                {% endif %}
-
+                <div id='login-div'>
+                    <a href=''>{{request.user.username}}</a>
+                    {% if not request.user.username %}
+                        <a id='login-link' href='logreg'>login</a>
+                    {% else %}
+                        <a id='login-link' href='logout'>logout</a>
+                    {% endif %}
+                </div>
             </header>
-            <section></section>
+            <section>
+                <ol>
+                    {% for i in post.posts %}
+                        <li>
+                            <div>
+                                <div class='up-arrow' data-value='{{i.id}}'>
+                                </div>
+                                {{i}}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ol>
+                <div class='step-links'>
+                <span class='pagination'>
+                    {% if post.posts.has_next %}
+                        <a href='?page={{ post.posts.next_page_number }}'>More</a>
+                    {% endif %}
+                </span>
+            </div>
+            </section>
             <footer>
                 <div id='bottom-nav'>
                     <a class='foot-links' href=''>Guidelines</a>
@@ -52,7 +114,7 @@
                     <p>|</p>
                     <a class='foot-links' href=''>Contact</a>
                     <form>
-                        {{search}}                
+                        {{info.search}}                
                     </form>
                 </div>
             </footer>

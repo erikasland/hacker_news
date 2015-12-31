@@ -38,8 +38,12 @@ a, h1, img, p{
     font-family: helvetica;
 }
 
-#login-link{
+#login-div{
     float: right;
+    display: inline-block;
+}
+
+#login-link{
     font-family: helvetica;
     font-size: .8em;
 }
@@ -49,6 +53,16 @@ section{
     width: 87.30em;
     background-color: #f6f6ef;
     border-bottom: solid .15em #ff6600;
+}
+
+.up-arrow{
+    width: 0; 
+    height: 0; 
+    margin-top: .4em;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom:7px solid #999999;
+    display: inline-block;
 }
 
 footer{
