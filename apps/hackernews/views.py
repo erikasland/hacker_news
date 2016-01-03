@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
-from .forms import Login, Registration, Search
+from .forms import Login, Registration, Search, SubPost
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
@@ -101,4 +101,18 @@ class AddComment(View):
         post = Post.objects.filter(id = postid)[0]
         Comment.objects.create(content = comment, post = post, user = request.user)
         return redirect('/commentonpost/' + postid)
+
+class Submit(View):
+    def get(self, request):
+        post = SubPost()
+        return render(request, 'hackernews/submit.html', {'submitpost': post})
+
+class SubmitPost(View):
+    def post(self, request):
+        content = request.POST['content']
+        title = request.POST['title']
+        url = request.POST['url']
+        user = request.user
+        Post.objects.create(title = title, content = content, user = user)
+        return redirect('/')
         
