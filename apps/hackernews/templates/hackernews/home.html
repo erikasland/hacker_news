@@ -19,16 +19,10 @@
                         url: 'voteuppost',
                         type: 'POST',
                         data: number,
-                        success: function(data) {
-                            alert('success!')   
-                        },
-                        error: function(){
-                            alert('fail')
-                        }
-
                     })
                     return false
                 });
+
                 function getCookie(name) {
                 var cookieValue = null;
                 if (document.cookie && document.cookie != '') {
@@ -80,6 +74,17 @@
                                 <div class='up-arrow' data-value='{{i.id}}'>
                                 </div>
                                 {{i}}
+                                {% for j in info.postvote %}
+                                    {% if j.post.title == i.title %}
+                                        <p>{{j.vote}}</p>
+                                        <p>{{i.user.username}}</p>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if info.comment.commentcount %}
+                                    <a href='commentonpost/{{i.id}}' class='commentonpost'>{{info.comment.commentcount}}</a>
+                                {% else %}
+                                    <a href='commentonpost/{{i.id}}' class='commentonpost'>discuss</a>
+                                {% endif %}
                             </div>
                         </li>
                     {% endfor %}

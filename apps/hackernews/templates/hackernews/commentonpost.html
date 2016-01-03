@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        {% load staticfiles %}
+        <link rel='stylesheet' type='text/css' href='{% static "hackernews/comment.css" %}'>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id='wrapper'>
+            <header>
+                <img src='{% static "hackernews/y18.gif" %}'>
+                <h1>Hacker News</h1>
+                <p>|</p>
+                <a class='head-links' href=''>new</a>
+                <p>|</p>
+                <a class='head-links' href=''>comments</a>
+                <p>|</p>
+                <a class='head-links' href=''>show</a>
+                <p>|</p>
+                <a class='head-links' href=''>ask</a>
+                <p>|</p>
+                <a class='head-links' href=''>jobs</a>
+                <p>|</p>
+                <a class='head-links' href=''>submit</a>
+                <div id='login-div'>
+                    <a href=''>{{request.user.username}}</a>
+                    {% if not request.user.username %}
+                        <a id='login-link' href='logreg'>login</a>
+                    {% else %}
+                        <a id='login-link' href='logout'>logout</a>
+                    {% endif %}
+                </div>
+            </header>
+            <section>
+                {% for i in post %}
+                    {{i.title}}
+                    {{i.user.username}}
+                {% endfor %}
+                <form action='/addcomment/{{postid}}' method='post'>
+                    {% csrf_token %}
+                    <textarea name='comment'></textarea>
+                    <input type='submit' value='Add Comment'>
+                </form>
+                {% for i in postcomments %}
+                    <div>
+                        {{i.user.username}}<br>
+                        {{i.content}}
+                    </div><br><br>
+                {% endfor %}
+            </section>
+            <footer>
+                <div id='bottom-nav'>
+                    <a class='foot-links' href=''>Guidelines</a>
+                    <p>|</p>
+                    <a class='foot-links' href=''>FAQ</a>
+                    <p>|</p>
+                    <a class='foot-links' href=''>Support</a>
+                    <p>|</p>
+                    <a class='foot-links' href=''>API</a>
+                    <p>|</p>
+                    <a class='foot-links' href=''>Security</a>
+                    <p>|</p>
+                    <a class='foot-links' href=''>Lists</a>
+                    <p>|</p>
+                    <a class='foot-links' href=''>Bookmarklet</a>
+                    <p>|</p>
+                    <a class='foot-links' href=''>DMCA</a>
+                    <p>|</p>
+                    <a class='foot-links' href=''>Apply to YC</a>
+                    <p>|</p>
+                    <a class='foot-links' href=''>Contact</a>
+                    <form>
+                        {{info.search}}                
+                    </form>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>

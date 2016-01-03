@@ -73,10 +73,32 @@ class VoteUpPost(View):
     def post(self, request):
         post = Post.objects.filter(id = int(request.body))[0]
         user = User.objects.filter(id = request.user.id)[0]
-        PostVote.objects.create(user = user, post=post)
+
+        if not PostVote.objects.filter(post = post):
+            PostVote.objects.create(post=post, vote = 1)
+        else:
+            postvote = PostVote.objects.filter(post = post)[0]
+            postvote.vote += 1
+            postvote.save()
         return JsonResponse({'status': True})
 
 class LogOut(View):
     def get(self, request):
         logout(request)
         return redirect('/')
+
+class CommentOnPost(View):
+    def get(self, request, postid):
+        infototemplate = Index.InfoToTemplate(self)
+        post = Post.objects.filter(id = postid)
+        postcomments = Comment.objects.all()
+        print(postcomments)
+        return render(request, 'hackernews/commentonpost.html', {'info': infototemplate, 'postid': postid, 'post': post, 'postcomments': postcomments})
+
+class AddComment(View):
+    def post(self, request,postid):
+        comment = request.POST['comment']
+        post = Post.objects.filter(id = postid)[0]
+        Comment.objects.create(content = comment, post = post, user = request.user)
+        return redirect('/commentonpost/' + postid)
+        

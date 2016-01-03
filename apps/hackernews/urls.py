@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from apps.hackernews.views import Index, LoginUser, RegUser, LogReg, LogOut, VoteUpPost
+from apps.hackernews.views import Index, LoginUser, RegUser, LogReg, LogOut, VoteUpPost, CommentOnPost, AddComment
 
 urlpatterns = [
     url(r'^reg$', RegUser.as_view()),
@@ -7,5 +7,7 @@ urlpatterns = [
     url(r'^logreg$', LogReg.as_view()),
     url(r'^logout$', LogOut.as_view()),
     url(r'^voteuppost$', VoteUpPost.as_view()),
+    url(r'^addcomment/(?P<postid>\d+)$', AddComment.as_view()),
+    url(r'^commentonpost/(?P<postid>\d+)$', CommentOnPost.as_view()),
     url(r'^', Index.as_view()),
 ]

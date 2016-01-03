@@ -24,7 +24,6 @@ class Comment(models.Model):
 class PostVote(models.Model):
     vote = models.IntegerField(default=0)
     post = models.ForeignKey(Post, related_name='post_vote')
-    user = models.ForeignKey(User, related_name='post_vote')
     created_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -33,7 +32,6 @@ class PostVote(models.Model):
 class CommentVote(models.Model):
     vote = models.IntegerField(default=0)
     comment = models.ForeignKey(Comment, related_name='comment_vote')
-    user = models.ForeignKey(User, related_name='comment_vote')
     created_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
