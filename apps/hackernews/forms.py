@@ -12,3 +12,7 @@ class Login(forms.Form):
     
 class Search(forms.Form):
     search = forms.CharField(label='Search', max_length=255)
+
+class SubPost(forms.Form):
+    title = forms.CharField(label='title', max_length=255)
+    url = forms.CharField(label='url', max_length=255)

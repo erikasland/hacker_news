@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        {% load staticfiles %}
+        <link rel='stylesheet' type='text/css' href='{% static "hackernews/submit.css" %}'>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id='wrapper'>
+            <header>
+                <img src='{% static "hackernews/y18.gif" %}'>
+                <h1>Hacker News</h1>
+                <p>|</p>
+                <a class='head-links' href=''>new</a>
+                <p>|</p>
+                <a class='head-links' href=''>comments</a>
+                <p>|</p>
+                <a class='head-links' href=''>show</a>
+                <p>|</p>
+                <a class='head-links' href=''>ask</a>
+                <p>|</p>
+                <a class='head-links' href=''>jobs</a>
+                <p>|</p>
+                <a class='head-links' href=''>submit</a>
+                <div id='login-div'>
+                    <a href=''>{{request.user.username}}</a>
+                    {% if not request.user.username %}
+                        <a id='login-link' href='logreg'>login</a>
+                    {% else %}
+                        <a id='login-link' href='logout'>logout</a>
+                    {% endif %}
+                </div>
+            </header>
+            <section>
+                <form action='submitpost' method='post'>
+                    {% csrf_token %}
+                    {{submitpost}}
+                    <textarea name='content'></textarea>
+                    <input type='submit' value='Submit'>
+                </form>
+            </section>
+        </div>
+    </body>
+</html>

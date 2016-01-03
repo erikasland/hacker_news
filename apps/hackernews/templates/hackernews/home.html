@@ -21,7 +21,7 @@
                         data: number,
                     })
                     return false
-                });
+                }); 
 
                 function getCookie(name) {
                 var cookieValue = null;
@@ -56,13 +56,13 @@
                 <p>|</p>
                 <a class='head-links' href=''>jobs</a>
                 <p>|</p>
-                <a class='head-links' href=''>submit</a>
+                <a class='head-links' href='submit'>submit</a>
                 <div id='login-div'>
                     <a href=''>{{request.user.username}}</a>
                     {% if not request.user.username %}
                         <a id='login-link' href='logreg'>login</a>
                     {% else %}
-                        <a id='login-link' href='logout'>logout</a>
+                         <a id='login-link' href='logout'>logout</a>
                     {% endif %}
                 </div>
             </header>
